@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Materia extends Model
 {
+     public $timestamps = false;
     protected $fillable = ['nombre', 'calificacion_alumno', 'experiencia'];
 
     public function profesores()
