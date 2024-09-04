@@ -15,6 +15,9 @@ class ClaseController extends Controller
     {
         // Validar la solicitud
         $request->validate([
+ 
+ 
+ 
             'grupo' => 'required|string|max:255',
             'dia_semana' => 'required|string|max:255',
             'hora_inicio' => 'required|date_format:H:i',
