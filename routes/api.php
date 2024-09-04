@@ -9,7 +9,7 @@ use App\Http\Controllers\MateriaController;
 use App\Http\Controllers\ClaseController;
 use App\Http\Controllers\SalonController;
 
-Route::apiResource('profesores', ProfesorController::class);
+Route::resource('/profesores', ProfesorController::class);
 Route::apiResource('horarios_disponibles', HorarioDisponibleController::class);
 Route::apiResource('profesor_materia', ProfesorMateriaController::class);
 Route::apiResource('materias', MateriaController::class);

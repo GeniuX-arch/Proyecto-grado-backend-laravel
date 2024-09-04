@@ -5,6 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Profesor extends Model
 {
+     public $timestamps = false;
     protected $table = 'profesores';
     protected $primaryKey = 'cedula';
     protected $fillable = ['cedula', 'nombre', 'tipo_contrato', 'estado'];
