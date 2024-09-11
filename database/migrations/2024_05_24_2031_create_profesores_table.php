@@ -13,6 +13,8 @@ class CreateProfesoresTable extends Migration
             $table->string('nombre');
             $table->string('tipo_contrato');
             $table->string('estado');
+            $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at
+            $table->softDeletes();
         });
     }
 

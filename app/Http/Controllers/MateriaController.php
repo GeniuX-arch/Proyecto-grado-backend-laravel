@@ -12,13 +12,13 @@ class MateriaController extends Controller
         return response()->json(Materia::all());
     }
 
+    //Post
     public function store(Request $request)
     {
         // Validar la solicitud
         $request->validate([
             'nombre' => 'required|string|max:255',
-            'calificacion_alumno' => 'nullable|numeric',
-            'experiencia' => 'nullable|string|max:255',
+            'alumnos' => 'nullable|numeric',
         ]);
 
         // Crear la materia
@@ -28,19 +28,21 @@ class MateriaController extends Controller
         return response()->json($materia, 201);
     }
 
+    //Get
     public function show($id)
     {
         $materia = Materia::findOrFail($id);
         return response()->json($materia);
     }
 
+
+    //Put
     public function update(Request $request, $id)
     {
         // Validar la solicitud
         $request->validate([
             'nombre' => 'sometimes|required|string|max:255',
-            'calificacion_alumno' => 'sometimes|nullable|numeric',
-            'experiencia' => 'sometimes|nullable|string|max:255',
+           
         ]);
 
         // Buscar la materia y actualizar
@@ -51,9 +53,20 @@ class MateriaController extends Controller
         return response()->json($materia, 200);
     }
 
+
+/*
     public function destroy($id)
     {
         Materia::destroy($id);
+        return response()->json(null, 204);
+    }
+*/
+//softDelete
+ public function destroy($id)
+    {
+        $salon = Materia::findOrFail($id);
+        $salon->delete(); // Esto realizará un soft delete
+
         return response()->json(null, 204);
     }
 }

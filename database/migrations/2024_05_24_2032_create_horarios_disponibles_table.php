@@ -15,6 +15,8 @@ class CreateHorariosDisponiblesTable extends Migration
             $table->time('hora_fin');
             $table->integer('profesor_id');
             $table->foreign('profesor_id')->references('cedula')->on('profesores');
+            $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at
+            $table->softDeletes();
         });
     }
 

@@ -6,12 +6,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Salon;
 use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 
 class SalonController extends Controller
 {
  
-
+    use SoftDeletes;
 
 
 
@@ -53,9 +54,20 @@ class SalonController extends Controller
         return response()->json($salon, 200);
     }
 
+    /*
     public function destroy($id)
     {
         Salon::destroy($id);
+        return response()->json(null, 204);
+    }
+
+    */
+    //SoftDelete
+ public function destroy($id)
+    {
+        $salon = Salon::findOrFail($id);
+        $salon->delete(); // Esto realizará un soft delete
+
         return response()->json(null, 204);
     }
 }

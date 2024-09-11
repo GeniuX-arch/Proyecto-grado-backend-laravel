@@ -16,7 +16,10 @@ class CreateProfesorMateriaTable extends Migration
             $table->unsignedBigInteger('materia_id');  // Cambiar a unsignedBigInteger para coincidir con la tabla materias
             $table->foreign('profesor_id')->references('cedula')->on('profesores');
             $table->foreign('materia_id')->references('id')->on('materias');
+            $table->float('calificacion_alumno')->nullable();
+            $table->string('experiencia')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

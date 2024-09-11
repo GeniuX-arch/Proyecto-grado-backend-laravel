@@ -11,9 +11,11 @@ class CreateMateriasTable extends Migration
         Schema::create('materias', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('nombre');
-            $table->float('calificacion_alumno')->nullable();
-            $table->string('experiencia')->nullable();
+            $table->integer('alumnos');
+
+            
             $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at
+            $table->softDeletes();
         });
     }
 

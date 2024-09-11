@@ -7,11 +7,13 @@ use Illuminate\Http\Request;
 
 class HorarioDisponibleController extends Controller
 {
+    //Get all
     public function index()
     {
         return response()->json(HorarioDisponible::all());
     }
 
+        //Post
     public function store(Request $request)
     {
         // Validar la solicitud
@@ -29,12 +31,14 @@ class HorarioDisponibleController extends Controller
         return response()->json($horario, 201);
     }
 
+    //Get 1
     public function show($id)
     {
         $horario = HorarioDisponible::findOrFail($id);
         return response()->json($horario);
     }
 
+    //Put
     public function update(Request $request, $id)
     {
         // Validar la solicitud
@@ -52,10 +56,24 @@ class HorarioDisponibleController extends Controller
         // Retornar el horario actualizado
         return response()->json($horario, 200);
     }
+    
 
+
+
+
+    /*
     public function destroy($id)
     {
         HorarioDisponible::destroy($id);
+        return response()->json(null, 204);
+    }
+        */
+        //softDelete
+ public function destroy($id)
+    {
+        $salon = HorarioDisponible::findOrFail($id);
+        $salon->delete(); // Esto realizará un soft delete
+
         return response()->json(null, 204);
     }
 }

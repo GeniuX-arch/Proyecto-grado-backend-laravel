@@ -14,11 +14,13 @@ class CreateClasesTable extends Migration
             $table->string('dia_semana');
             $table->time('hora_inicio');
             $table->time('hora_fin');
+            $table->integer('alumnos');
             $table->unsignedBigInteger('materia_id'); // Cambiar a unsignedBigInteger
             $table->unsignedInteger('salon_id'); // Cambiar a unsignedInteger
             $table->foreign('materia_id')->references('id')->on('materias');
             $table->foreign('salon_id')->references('id')->on('salones');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

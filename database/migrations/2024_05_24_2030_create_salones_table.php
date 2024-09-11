@@ -12,6 +12,8 @@ class CreateSalonesTable extends Migration
             $table->increments('id');
             $table->integer('capacidad_alumnos');
             $table->string('tipo');
+            $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at
+            $table->softDeletes();
         });
     }
 

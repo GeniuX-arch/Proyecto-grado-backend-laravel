@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
+
 class Clase extends Model
 {
-     public $timestamps = false;
-    protected $fillable = ['grupo', 'dia_semana', 'hora_inicio', 'hora_fin', 'materia_id', 'salon_id'];
+    use SoftDeletes;
+    protected $fillable = ['grupo', 'dia_semana', 'hora_inicio', 'hora_fin', 'materia_id', 'salon_id','soft_delete'];
+     protected $dates = ['deleted_at'];
 
     public function materia()
     {

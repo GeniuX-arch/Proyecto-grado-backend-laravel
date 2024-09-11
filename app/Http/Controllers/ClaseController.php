@@ -49,6 +49,8 @@ class ClaseController extends Controller
             'hora_fin' => 'sometimes|required|date_format:H:i',
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
             'salon_id' => 'sometimes|required|integer|exists:salones,id',
+            'alumnos' => 'required|integer',
+
         ]);
 
         // Buscar la clase y actualizar
@@ -58,10 +60,21 @@ class ClaseController extends Controller
         // Retornar la clase actualizada
         return response()->json($clase, 200);
     }
+    
 
+    /*
     public function destroy($id)
     {
         Clase::destroy($id);
+        return response()->json(null, 204);
+    }
+        */
+    //softDelete
+ public function destroy($id)
+    {
+        $salon = Clase::findOrFail($id);
+        $salon->delete(); // Esto realizará un soft delete
+
         return response()->json(null, 204);
     }
 }

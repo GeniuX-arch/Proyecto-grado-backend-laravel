@@ -3,12 +3,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
+use Illuminate\Database\Eloquent\SoftDeletes;
 class HorarioDisponible extends Model
 {
-     public $timestamps = false;
-    protected $table = 'horarios_disponibles';
-    protected $fillable = ['dia', 'hora_inicio', 'hora_fin', 'profesor_id'];
+    use SoftDeletes;
 
+    protected $table = 'horarios_disponibles';
+    protected $fillable = ['dia', 'hora_inicio', 'hora_fin', 'profesor_id','soft_delete'];
+
+    
+     protected $dates = ['deleted_at'];
     public function profesor()
     {
         return $this->belongsTo(Profesor::class, 'profesor_id', 'cedula');

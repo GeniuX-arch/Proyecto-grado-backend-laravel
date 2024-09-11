@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Profesor;
 use App\Models\ProfesorMateria;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,8 @@ class ProfesorMateriaController extends Controller
         $request->validate([
             'profesor_id' => 'required|integer|exists:profesores,cedula',
             'materia_id' => 'required|integer|exists:materias,id',
+            'calificacion_alumno' => 'nullable|numeric',
+            'experiencia' => 'nullable|string|max:255',
         ]);
 
         // Crear la relación profesor-materia
@@ -38,6 +41,8 @@ class ProfesorMateriaController extends Controller
         $request->validate([
             'profesor_id' => 'sometimes|required|integer|exists:profesores,cedula',
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
+            'calificacion_alumno' => 'nullable|numeric',
+            'experiencia' => 'nullable|string|max:255',
         ]);
 
         // Buscar la relación profesor-materia y actualizar
@@ -48,9 +53,25 @@ class ProfesorMateriaController extends Controller
         return response()->json($profesorMateria, 200);
     }
 
+
+
+
+
+
+/*
+    //Elimnar de la db
     public function destroy($id)
     {
         ProfesorMateria::destroy($id);
         return response()->json(null, 204);
     }
+*/
+ public function destroy($id)
+    {
+        $salon = ProfesorMateria::findOrFail($id);
+        $salon->delete(); // Esto realizará un soft delete
+
+        return response()->json(null, 204);
+    }
 }
+

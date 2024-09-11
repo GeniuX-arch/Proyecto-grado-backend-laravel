@@ -2,12 +2,14 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Materia extends Model
 {
-     public $timestamps = false;
-    protected $fillable = ['nombre', 'calificacion_alumno', 'experiencia'];
+    use SoftDeletes;
+    protected $fillable = ['nombre', 'calificacion_alumno', 'experiencia','soft_delete'];
 
+     protected $dates = ['deleted_at'];
     public function profesores()
     {
         return $this->hasMany(ProfesorMateria::class, 'materia_id');

@@ -20,6 +20,7 @@ class ProfesorController extends Controller
             'nombre' => 'required|string|max:255',
             'tipo_contrato' => 'required|string|max:255',
             'estado' => 'required|string|max:255',
+            'soft_delete' => 1
         ]);
 
         // Crear el profesor
@@ -29,12 +30,19 @@ class ProfesorController extends Controller
         return response()->json($profesor, 201);
     }
 
+
+    //get
     public function show($id)
     {
         $profesor = Profesor::findOrFail($id);
         return response()->json($profesor);
     }
 
+
+
+
+
+    //Put
     public function update(Request $request, $id)
     {
         // Validar la solicitud
@@ -52,9 +60,24 @@ class ProfesorController extends Controller
         return response()->json($profesor, 200);
     }
 
+
+
+
+/*
+    //Eliminado fuerte
     public function destroy($id)
     {
         Profesor::destroy($id);
         return response()->json(null, 204);
     }
+*/
+    //softDelete
+ public function destroy($id)
+    {
+        $salon = Profesor::findOrFail($id);
+        $salon->delete(); // Esto realizará un soft delete
+
+        return response()->json(null, 204);
+    }
+
 }
