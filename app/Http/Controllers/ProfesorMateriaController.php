@@ -18,8 +18,6 @@ class ProfesorMateriaController extends Controller
         $request->validate([
             'profesor_id' => 'required|integer|exists:profesores,cedula',
             'materia_id' => 'required|integer|exists:materias,id',
-            'calificacion_alumno' => 'nullable|numeric',
-            'experiencia' => 'nullable|string|max:255',
         ]);
 
         // Crear la relación profesor-materia
@@ -41,8 +39,6 @@ class ProfesorMateriaController extends Controller
         $request->validate([
             'profesor_id' => 'sometimes|required|integer|exists:profesores,cedula',
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
-            'calificacion_alumno' => 'nullable|numeric',
-            'experiencia' => 'nullable|string|max:255',
         ]);
 
         // Buscar la relación profesor-materia y actualizar

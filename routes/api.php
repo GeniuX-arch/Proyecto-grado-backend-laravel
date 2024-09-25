@@ -18,10 +18,10 @@ use Illuminate\Support\Facades\Validator;
 
 //CRUDs
 Route::resource('/profesores', ProfesorController::class);
-Route::apiResource('horarios_disponibles', HorarioDisponibleController::class);
-Route::apiResource('profesor_materia', ProfesorMateriaController::class);
-Route::apiResource('materias', MateriaController::class);
-Route::apiResource('clases', ClaseController::class);
+Route::apiResource('/horarios_disponibles', HorarioDisponibleController::class);
+Route::apiResource('/profesor_materia', ProfesorMateriaController::class);
+Route::apiResource('/materias', MateriaController::class);
+Route::apiResource('/clases', ClaseController::class);
 Route::apiResource('/salones', SalonController::class);
 
 

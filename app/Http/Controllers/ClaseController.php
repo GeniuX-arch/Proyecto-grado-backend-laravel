@@ -15,15 +15,13 @@ class ClaseController extends Controller
     {
         // Validar la solicitud
         $request->validate([
- 
- 
- 
             'grupo' => 'required|string|max:255',
             'dia_semana' => 'required|string|max:255',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
             'materia_id' => 'required|integer|exists:materias,id',
             'salon_id' => 'required|integer|exists:salones,id',
+            'alumnos' => 'required|integer',
         ]);
 
         // Crear la clase
@@ -50,7 +48,6 @@ class ClaseController extends Controller
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
             'salon_id' => 'sometimes|required|integer|exists:salones,id',
             'alumnos' => 'required|integer',
-
         ]);
 
         // Buscar la clase y actualizar

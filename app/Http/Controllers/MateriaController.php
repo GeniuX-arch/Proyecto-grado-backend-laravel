@@ -18,6 +18,8 @@ class MateriaController extends Controller
         // Validar la solicitud
         $request->validate([
             'nombre' => 'required|string|max:255',
+            'calificacion_alumno' => 'nullable|numeric',
+            'experiencia' => 'nullable|numeric',
             'alumnos' => 'nullable|numeric',
         ]);
 
@@ -41,8 +43,10 @@ class MateriaController extends Controller
     {
         // Validar la solicitud
         $request->validate([
-            'nombre' => 'sometimes|required|string|max:255',
-           
+            'nombre' => 'required|string|max:255',
+            'calificacion_alumno' => 'nullable|numeric',
+            'experiencia' => 'nullable|numeric',
+            'alumnos' => 'nullable|numeric',
         ]);
 
         // Buscar la materia y actualizar

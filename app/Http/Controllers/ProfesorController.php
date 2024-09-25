@@ -20,7 +20,6 @@ class ProfesorController extends Controller
             'nombre' => 'required|string|max:255',
             'tipo_contrato' => 'required|string|max:255',
             'estado' => 'required|string|max:255',
-            'soft_delete' => 1
         ]);
 
         // Crear el profesor
