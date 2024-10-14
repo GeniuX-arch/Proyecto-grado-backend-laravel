@@ -1,31 +1,44 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 class CreateClasesTable extends Migration
 {
-    public function up()
-    {
-        Schema::dropIfExists('clases');
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+        {
         Schema::create('clases', function (Blueprint $table) {
-            $table->increments('id')->primary();
+            $table->increments('id'); // Clave primaria
             $table->string('grupo');
             $table->string('dia_semana');
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->integer('alumnos');
-            $table->unsignedBigInteger('materia_id'); // Cambiar a unsignedBigInteger
-            $table->unsignedInteger('salon_id'); // Cambiar a unsignedInteger
+
+            // Claves foráneas
+            $table->unsignedInteger('materia_id');
+            $table->unsignedInteger('salon_id')->nullable(); // Añadir el campo para la clave foránea
+            $table->unsignedInteger('profesor_id')->nullable(); // Añadir el campo para la clave foránea
+
+            // Definición de relaciones
             $table->foreign('materia_id')->references('id')->on('materias');
             $table->foreign('salon_id')->references('id')->on('salones');
+            $table->foreign('profesor_id')->references('id')->on('profesores');
+
             $table->timestamps();
-            $table->softDeletes();
+            $table->softDeletes(); // Para el borrado lógico
         });
     }
 
-    public function down()
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
     {
         Schema::dropIfExists('clases');
     }
-}
+    }

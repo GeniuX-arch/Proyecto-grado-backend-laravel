@@ -9,12 +9,12 @@ class CreateHorariosDisponiblesTable extends Migration
     {
         Schema::dropIfExists('horarios_disponibles');
         Schema::create('horarios_disponibles', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->primary();
             $table->string('dia');
             $table->time('hora_inicio');
             $table->time('hora_fin');
-            $table->integer('profesor_id');
-            $table->foreign('profesor_id')->references('cedula')->on('profesores');
+            $table->unsignedInteger('profesor_id');
+            $table->foreign('profesor_id')->references('id')->on('profesores');
             $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at
             $table->softDeletes();
         });

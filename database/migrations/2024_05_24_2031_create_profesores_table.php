@@ -9,10 +9,13 @@ class CreateProfesoresTable extends Migration
     {
         Schema::dropIfExists('profesores');
         Schema::create('profesores', function (Blueprint $table) {
-            $table->integer('cedula')->primary();
+            $table->increments('id'); // Clave primaria auto-incremental
+            $table->string('tipo_cedula');
+            $table->unsignedInteger('cedula')->unique();
             $table->string('nombre');
             $table->string('tipo_contrato');
             $table->string('estado');
+            $table->string('image_path')->nullable();
             $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at
             $table->softDeletes();
         });

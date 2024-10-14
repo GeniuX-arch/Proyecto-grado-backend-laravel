@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 
 class HorarioDisponibleController extends Controller
 {
-    //Get all
+    // Obtener todos los horarios disponibles
     public function index()
     {
         return response()->json(HorarioDisponible::all());
     }
 
-        //Post
+    // Crear un nuevo horario disponible
     public function store(Request $request)
     {
         // Validar la solicitud
@@ -21,7 +21,7 @@ class HorarioDisponibleController extends Controller
             'dia' => 'required|string|max:255',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
-            'profesor_id' => 'required|integer|exists:profesores,cedula',
+            'profesor_id' => 'required|integer|exists:profesores,cedula', // Asegúrate de que "cedula" sea la columna correcta
         ]);
 
         // Crear el horario disponible
@@ -31,14 +31,14 @@ class HorarioDisponibleController extends Controller
         return response()->json($horario, 201);
     }
 
-    //Get 1
+    // Obtener un horario disponible específico
     public function show($id)
     {
         $horario = HorarioDisponible::findOrFail($id);
         return response()->json($horario);
     }
 
-    //Put
+    // Actualizar un horario disponible
     public function update(Request $request, $id)
     {
         // Validar la solicitud
@@ -56,23 +56,12 @@ class HorarioDisponibleController extends Controller
         // Retornar el horario actualizado
         return response()->json($horario, 200);
     }
-    
 
-
-
-
-    /*
+    // Soft delete de un horario disponible
     public function destroy($id)
     {
-        HorarioDisponible::destroy($id);
-        return response()->json(null, 204);
-    }
-        */
-        //softDelete
- public function destroy($id)
-    {
-        $salon = HorarioDisponible::findOrFail($id);
-        $salon->delete(); // Esto realizará un soft delete
+        $horario = HorarioDisponible::findOrFail($id); // Cambié de "$salon" a "$horario" para mantener consistencia
+        $horario->delete(); // Esto realizará un soft delete
 
         return response()->json(null, 204);
     }

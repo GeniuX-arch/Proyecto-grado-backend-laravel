@@ -9,7 +9,8 @@ class ProfesorMateria extends Model
 {
     use SoftDeletes;
     protected $table = 'profesor_materia';
-    protected $fillable = ['profesor_id', 'materia_id','soft_delete'];
+    protected $primaryKey = 'id';
+    protected $fillable = ['profesor_id', 'materia_id','experiencia','calificacion_alumno'];
 
      protected $dates = ['deleted_at'];
 
@@ -22,4 +23,4 @@ class ProfesorMateria extends Model
     {
         return $this->belongsTo(Materia::class, 'materia_id');
     }
-}
+}  

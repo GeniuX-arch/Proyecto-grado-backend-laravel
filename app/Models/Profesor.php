@@ -8,8 +8,8 @@ class Profesor extends Model
 {
     use SoftDeletes;
     protected $table = 'profesores';
-    protected $primaryKey = 'cedula';
-    protected $fillable = ['cedula', 'nombre', 'tipo_contrato', 'estado','soft_delete'];
+    protected $primaryKey = 'id';
+    protected $fillable = ['tipo_cedula','cedula','nombre', 'tipo_contrato', 'estado','image_path'];
 
   
      protected $dates = ['deleted_at'];

@@ -9,7 +9,7 @@ class Salon extends Model
     use SoftDeletes;
     protected $table = 'salones';
     protected $primaryKey = 'id';
-    protected $fillable = ['capacidad_alumnos', 'tipo','soft_delete'];
+    protected $fillable = ['codigo','capacidad_alumnos','tipo','soft_delete'];
 
     protected $dates = ['deleted_at'];
 

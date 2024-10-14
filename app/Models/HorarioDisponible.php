@@ -9,7 +9,8 @@ class HorarioDisponible extends Model
     use SoftDeletes;
 
     protected $table = 'horarios_disponibles';
-    protected $fillable = ['dia', 'hora_inicio', 'hora_fin', 'profesor_id','soft_delete'];
+    protected $primaryKey = 'id';
+    protected $fillable = ['dia', 'hora_inicio', 'hora_fin', 'profesor_id'];
 
     
      protected $dates = ['deleted_at'];

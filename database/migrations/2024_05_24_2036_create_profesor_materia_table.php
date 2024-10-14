@@ -8,14 +8,17 @@ class CreateProfesorMateriaTable extends Migration
 {
     public function up()
     {
-
         Schema::dropIfExists('profesor_materia');
         Schema::create('profesor_materia', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('profesor_id');  // Asumiendo que cedula es integer
-            $table->unsignedBigInteger('materia_id');  // Cambiar a unsignedBigInteger para coincidir con la tabla materias
-            $table->foreign('profesor_id')->references('cedula')->on('profesores');
-            $table->foreign('materia_id')->references('id')->on('materias');
+            $table->unsignedInteger('profesor_id');  // Cambiar a unsignedInteger
+            $table->unsignedInteger('materia_id');  // Asegúrate de que también sea unsigned
+            $table->unsignedInteger('experiencia');
+            $table->unsignedInteger('calificacion_alumno');
+
+            // Define las claves foráneas
+            $table->foreign('profesor_id')->references('id')->on('profesores')->onDelete('cascade');
+            $table->foreign('materia_id')->references('id')->on('materias')->onDelete('cascade');
             $table->timestamps();
             $table->softDeletes();
         });

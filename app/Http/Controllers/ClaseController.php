@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Clase;
@@ -22,6 +23,7 @@ class ClaseController extends Controller
             'materia_id' => 'required|integer|exists:materias,id',
             'salon_id' => 'required|integer|exists:salones,id',
             'alumnos' => 'required|integer',
+            'profesor_id' => 'required|integer|exists:profesores,cedula', // Agregado según tu modelo
         ]);
 
         // Crear la clase
@@ -46,8 +48,9 @@ class ClaseController extends Controller
             'hora_inicio' => 'sometimes|required|date_format:H:i',
             'hora_fin' => 'sometimes|required|date_format:H:i',
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
-            'salon_id' => 'sometimes|required|integer|exists:salones,id',
-            'alumnos' => 'required|integer',
+            'salon_id' => 'sometimes|nullable|integer|exists:salones,id',
+            'alumnos' => 'sometimes|integer', // Mantenido como "sometimes" ya que no es requerido en la actualización
+            'profesor_id' => 'sometimes|nullable|integer|exists:profesores,cedula', // Agregado aquí también
         ]);
 
         // Buscar la clase y actualizar
@@ -57,20 +60,11 @@ class ClaseController extends Controller
         // Retornar la clase actualizada
         return response()->json($clase, 200);
     }
-    
 
-    /*
     public function destroy($id)
     {
-        Clase::destroy($id);
-        return response()->json(null, 204);
-    }
-        */
-    //softDelete
- public function destroy($id)
-    {
-        $salon = Clase::findOrFail($id);
-        $salon->delete(); // Esto realizará un soft delete
+        $clase = Clase::findOrFail($id);
+        $clase->delete(); // Soft delete
 
         return response()->json(null, 204);
     }

@@ -9,7 +9,8 @@ class CreateSalonesTable extends Migration
     {
         Schema::dropIfExists('salones');
         Schema::create('salones', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id')->primary();
+            $table->string('codigo');
             $table->integer('capacidad_alumnos');
             $table->string('tipo');
             $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at

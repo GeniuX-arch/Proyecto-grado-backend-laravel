@@ -7,7 +7,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Materia extends Model
 {
     use SoftDeletes;
-    protected $fillable = ['nombre', 'calificacion_alumno','alumnos', 'experiencia','soft_delete'];
+
+    protected $table = 'horarios_disponibles';
+    protected $primaryKey = 'id';
+    protected $fillable = ['codigo','nombre', 'alumnos' ];
 
      protected $dates = ['deleted_at'];
     public function profesores()
