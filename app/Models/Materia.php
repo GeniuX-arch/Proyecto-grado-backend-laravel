@@ -8,7 +8,7 @@ class Materia extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'horarios_disponibles';
+    protected $table = 'materias';
     protected $primaryKey = 'id';
     protected $fillable = ['codigo','nombre', 'alumnos' ];
 
