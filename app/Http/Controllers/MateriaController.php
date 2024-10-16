@@ -21,10 +21,12 @@ class MateriaController extends Controller
             'codigo' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
             'alumnos' => 'nullable|numeric', // Ajustado según el atributo $fillable
+            'bloques' => 'nullable|numeric', // Ajustado según el atributo $fillable
+            
         ]);
 
         // Crear la materia
-        $materia = Materia::create($request->only(['codigo','nombre', 'alumnos'])); // Solo permite asignación de campos llenables
+        $materia = Materia::create($request->only(['codigo','nombre', 'alumnos','bloques'])); // Solo permite asignación de campos llenables
 
         // Retornar la materia creada
         return response()->json($materia, 201);
@@ -45,11 +47,12 @@ class MateriaController extends Controller
             'codigo' => 'required|string|max:255',
             'nombre' => 'required|string|max:255',
             'alumnos' => 'nullable|numeric', // Ajustado según el atributo $fillable
+            'bloques' => 'nullable|numeric', // Ajustado según el atributo $fillable
         ]);
 
         // Buscar la materia y actualizar
         $materia = Materia::findOrFail($id);
-        $materia->update($request->only(['codigo','nombre', 'alumnos'])); // Solo permite asignación de campos llenables
+        $materia->update($request->only(['codigo','nombre', 'alumnos','bloques'])); // Solo permite asignación de campos llenables
 
         // Retornar la materia actualizada
         return response()->json($materia, 200);

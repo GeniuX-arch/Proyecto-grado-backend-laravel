@@ -13,6 +13,8 @@ class CreateMateriasTable extends Migration
             $table->string('codigo');
             $table->string('nombre');
             $table->integer('alumnos');
+            $table->integer('bloques');
+
             
             
             $table->timestamps(); // Agregar campos de timestamp: created_at y updated_at

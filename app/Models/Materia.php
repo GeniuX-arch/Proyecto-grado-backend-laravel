@@ -10,7 +10,7 @@ class Materia extends Model
 
     protected $table = 'materias';
     protected $primaryKey = 'id';
-    protected $fillable = ['codigo','nombre', 'alumnos' ];
+    protected $fillable = ['codigo','nombre', 'alumnos','bloques' ];
 
      protected $dates = ['deleted_at'];
     public function profesores()
