@@ -7,8 +7,18 @@ use Illuminate\Http\Request;
 
 class ClaseController extends Controller
 {
-    public function index()
+    // Obtener todas las clases o filtrar por profesor_id
+    public function index(Request $request)
     {
+        // Si hay un profesor_id en la consulta, filtrar por él
+        $profesorId = $request->query('profesor_id');
+
+        if ($profesorId) {
+            // Asegúrate de que el profesor_id es válido
+            return response()->json(Clase::where('profesor_id', $profesorId)->get());
+        }
+
+        // Si no hay profesor_id, devuelve todas las clases
         return response()->json(Clase::all());
     }
 
@@ -23,7 +33,7 @@ class ClaseController extends Controller
             'materia_id' => 'required|integer|exists:materias,id',
             'salon_id' => 'required|integer|exists:salones,id',
             'alumnos' => 'required|integer',
-            'profesor_id' => 'required|integer|exists:profesores,id', // Agregado según tu modelo
+            'profesor_id' => 'required|integer|exists:profesores,id',
         ]);
 
         // Crear la clase
@@ -49,8 +59,8 @@ class ClaseController extends Controller
             'hora_fin' => 'sometimes|required|date_format:H:i',
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
             'salon_id' => 'sometimes|nullable|integer|exists:salones,id',
-            'alumnos' => 'sometimes|integer', // Mantenido como "sometimes" ya que no es requerido en la actualización
-            'profesor_id' => 'sometimes|nullable|integer|exists:profesores,id', // Agregado aquí también
+            'alumnos' => 'sometimes|integer',
+            'profesor_id' => 'sometimes|nullable|integer|exists:profesores,id',
         ]);
 
         // Buscar la clase y actualizar

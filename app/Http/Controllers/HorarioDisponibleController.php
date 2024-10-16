@@ -7,10 +7,21 @@ use Illuminate\Http\Request;
 
 class HorarioDisponibleController extends Controller
 {
-    // Obtener todos los horarios disponibles
-    public function index()
+    // Obtener todos los horarios disponibles o filtrarlos por profesor_id
+    public function index(Request $request)
     {
-        return response()->json(HorarioDisponible::all());
+        // Obtener el profesor_id de la consulta
+        $profesorId = $request->query('profesor_id');
+
+        if ($profesorId) {
+            // Filtrar por profesor_id si se proporciona
+            $horarios = HorarioDisponible::where('profesor_id', $profesorId)->get();
+        } else {
+            // Si no se proporciona profesor_id, devolver todos los horarios
+            $horarios = HorarioDisponible::all();
+        }
+
+        return response()->json($horarios);
     }
 
     // Crear un nuevo horario disponible
@@ -21,7 +32,7 @@ class HorarioDisponibleController extends Controller
             'dia' => 'required|string|max:255',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
-            'profesor_id' => 'required|integer|exists:profesores,id', // Asegúrate de que "cedula" sea la columna correcta
+            'profesor_id' => 'required|integer|exists:profesores,id',
         ]);
 
         // Crear el horario disponible
@@ -60,7 +71,7 @@ class HorarioDisponibleController extends Controller
     // Soft delete de un horario disponible
     public function destroy($id)
     {
-        $horario = HorarioDisponible::findOrFail($id); // Cambié de "$salon" a "$horario" para mantener consistencia
+        $horario = HorarioDisponible::findOrFail($id);
         $horario->delete(); // Esto realizará un soft delete
 
         return response()->json(null, 204);
