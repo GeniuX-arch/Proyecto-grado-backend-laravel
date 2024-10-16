@@ -13,6 +13,15 @@ class HorarioDisponible extends Model
     protected $fillable = ['dia', 'hora_inicio', 'hora_fin', 'profesor_id'];
 
     
+    public function getHoraInicioAttribute($value)
+    {
+        return date('H:i', strtotime($value)); // Devuelve hora en formato HH:mm
+    }
+
+    public function getHoraFinAttribute($value)
+    {
+        return date('H:i', strtotime($value)); // Devuelve hora en formato HH:mm
+    }
      protected $dates = ['deleted_at'];
     public function profesor()
     {
