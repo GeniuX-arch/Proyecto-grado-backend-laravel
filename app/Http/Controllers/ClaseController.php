@@ -23,7 +23,7 @@ class ClaseController extends Controller
             'materia_id' => 'required|integer|exists:materias,id',
             'salon_id' => 'required|integer|exists:salones,id',
             'alumnos' => 'required|integer',
-            'profesor_id' => 'required|integer|exists:profesores,cedula', // Agregado según tu modelo
+            'profesor_id' => 'required|integer|exists:profesores,id', // Agregado según tu modelo
         ]);
 
         // Crear la clase
@@ -50,7 +50,7 @@ class ClaseController extends Controller
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
             'salon_id' => 'sometimes|nullable|integer|exists:salones,id',
             'alumnos' => 'sometimes|integer', // Mantenido como "sometimes" ya que no es requerido en la actualización
-            'profesor_id' => 'sometimes|nullable|integer|exists:profesores,cedula', // Agregado aquí también
+            'profesor_id' => 'sometimes|nullable|integer|exists:profesores,id', // Agregado aquí también
         ]);
 
         // Buscar la clase y actualizar

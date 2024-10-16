@@ -19,7 +19,7 @@ class ProfesorController extends Controller
             'cedula' => 'required|integer|unique:profesores,cedula',
             'nombre' => 'required|string|max:255',
             'tipo_contrato' => 'required|string|max:255',
-            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'sometimes|image|mimes:jpeg,png,jpg,gif',
             'estado' => 'required|string|max:255',
         ]);
 

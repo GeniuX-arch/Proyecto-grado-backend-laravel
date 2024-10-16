@@ -1,6 +1,4 @@
-
 <?php
-
 
 namespace App\Http\Controllers;
 use App\Models\ProfesorMateria;
@@ -19,7 +17,7 @@ class ProfesorMateriaController extends Controller
     {
         // Validar la solicitud
         $request->validate([
-            'profesor_id' => 'required|integer|exists:profesores,cedula',
+            'profesor_id' => 'required|integer|exists:profesores,id',
             'materia_id' => 'required|integer|exists:materias,id',
             'experiencia' => 'nullable|numeric', // Agregado según el atributo $fillable
             'calificacion_alumno' => 'nullable|numeric', // Agregado según el atributo $fillable
@@ -44,7 +42,7 @@ class ProfesorMateriaController extends Controller
     {
         // Validar la solicitud
         $request->validate([
-            'profesor_id' => 'sometimes|required|integer|exists:profesores,cedula',
+            'profesor_id' => 'sometimes|required|integer|exists:profesores,id',
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
             'experiencia' => 'nullable|numeric', // Agregado según el atributo $fillable
             'calificacion_alumno' => 'nullable|numeric', // Agregado según el atributo $fillable

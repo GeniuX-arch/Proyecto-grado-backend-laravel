@@ -21,7 +21,7 @@ class HorarioDisponibleController extends Controller
             'dia' => 'required|string|max:255',
             'hora_inicio' => 'required|date_format:H:i',
             'hora_fin' => 'required|date_format:H:i',
-            'profesor_id' => 'required|integer|exists:profesores,cedula', // Asegúrate de que "cedula" sea la columna correcta
+            'profesor_id' => 'required|integer|exists:profesores,id', // Asegúrate de que "cedula" sea la columna correcta
         ]);
 
         // Crear el horario disponible
@@ -46,7 +46,7 @@ class HorarioDisponibleController extends Controller
             'dia' => 'sometimes|required|string|max:255',
             'hora_inicio' => 'sometimes|required|date_format:H:i',
             'hora_fin' => 'sometimes|required|date_format:H:i',
-            'profesor_id' => 'sometimes|required|integer|exists:profesores,cedula',
+            'profesor_id' => 'sometimes|required|integer|exists:profesores,id',
         ]);
 
         // Buscar el horario y actualizar

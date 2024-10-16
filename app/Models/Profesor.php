@@ -15,11 +15,15 @@ class Profesor extends Model
      protected $dates = ['deleted_at'];
     public function materias()
     {
-        return $this->hasMany(ProfesorMateria::class, 'profesor_id', 'cedula');
+        return $this->hasMany(ProfesorMateria::class, 'profesor_id');
     }
 
     public function horariosDisponibles()
     {
-        return $this->hasMany(HorarioDisponible::class, 'profesor_id', 'cedula');
+        return $this->hasMany(HorarioDisponible::class, 'profesor_id');
+    }    
+    public function clase()
+    {
+        return $this->hasMany(Clase::class, 'profesor_id');
     }
 }

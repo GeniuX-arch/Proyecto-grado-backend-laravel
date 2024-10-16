@@ -16,7 +16,7 @@ class ProfesorMateria extends Model
 
     public function profesor()
     {
-        return $this->belongsTo(Profesor::class, 'profesor_id', 'cedula');
+        return $this->belongsTo(Profesor::class, 'profesor_id');
     }
 
     public function materia()

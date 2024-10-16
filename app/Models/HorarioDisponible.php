@@ -16,6 +16,6 @@ class HorarioDisponible extends Model
      protected $dates = ['deleted_at'];
     public function profesor()
     {
-        return $this->belongsTo(Profesor::class, 'profesor_id', 'cedula');
+        return $this->belongsTo(Profesor::class, 'profesor_id');
     }
 }

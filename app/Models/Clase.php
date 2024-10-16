@@ -14,20 +14,7 @@ class Clase extends Model
     protected $dates = ['deleted_at'];
 
     // Accesores para cambiar el nombre de los atributos
-    public function getDiaAttribute()
-    {
-        return $this->dia_semana; // Cambia 'dia_semana' a 'dia'
-    }
 
-    public function getFechaInicioAttribute()
-    {
-        return date('Y-m-d', strtotime($this->attributes['fecha_inicio'])); // Asegúrate de que 'fecha_inicio' exista
-    }
-
-    public function getFechaFinAttribute()
-    {
-        return date('Y-m-d', strtotime($this->attributes['fecha_fin'])); // Asegúrate de que 'fecha_fin' exista
-    }
 
     public function getHoraInicioAttribute($value)
     {
