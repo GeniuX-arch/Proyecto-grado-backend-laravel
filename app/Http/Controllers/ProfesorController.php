@@ -7,10 +7,40 @@ use Illuminate\Support\Facades\Storage;
 
 class ProfesorController extends Controller
 {
+ public function index(Request $request)
+{
+    // Establecer la cantidad de resultados por página
+    $perPage = 6;
+    $name = $request->query('name');
+    $page = $request->query('page');
+
+    // Obtener el filtro de nombre desde la solicitud
+    $nombre = $request->get('nombre');
+    
+
+    // Filtrar por nombre si se proporciona
+    if($name){
+    $query = Profesor::query();
+    if ($nombre) {
+        $query->where('nombre', 'like', '%' . $nombre . '%');
+    }
+
+    // Obtener los registros paginados
+    $profesores = $query->paginate($perPage);
+
+    // Retornar los resultados paginados
+    return response()->json($profesores);
+    }else{
+
+        return response()->json(Profesor::all());
+    
+}}
+    /*
     public function index()
     {
         return response()->json(Profesor::all());
     }
+        */
 
     public function store(Request $request)
     {

@@ -8,20 +8,43 @@ use Illuminate\Http\Request;
 class ClaseController extends Controller
 {
     // Obtener todas las clases o filtrar por profesor_id
-    public function index(Request $request)
+    
+     public function index(Request $request)
     {
         // Si hay un profesor_id en la consulta, filtrar por él
         $profesorId = $request->query('profesor_id');
+        
+        $name = $request->query('name');
 
+        if($name){
         if ($profesorId) {
-            // Asegúrate de que el profesor_id es válido
-            return response()->json(Clase::where('profesor_id', $profesorId)->get());
+            $clases = Clase::with(['profesor', 'materia', 'salon'])
+                ->where('profesor_id', $profesorId)
+                ->get();
+        } else {
+            // Obtener todas las clases con relaciones
+            $clases = Clase::with(['profesor', 'materia', 'salon'])->get();
         }
 
-        // Si no hay profesor_id, devuelve todas las clases
+        // Formatear el resultado para que no incluya los IDs y devuelva solo lo necesario
+        $resultado = $clases->map(function ($clase) {
+            return [
+                'id' => $clase->id,
+                'profesor_nombre' => $clase->profesor->nombre,
+                'materia_nombre' => $clase->materia->nombre,
+                'salon_codigo' => $clase->salon->codigo,
+                'grupo' => $clase->grupo,
+                'dia_semana' => $clase->dia_semana,
+                'hora_inicio' => $clase->hora_inicio,
+                'hora_fin' => $clase->hora_fin,
+            ];
+        });
+
+        return response()->json($resultado);
+    }else{
         return response()->json(Clase::all());
     }
-
+}
     public function store(Request $request)
     {
         // Validar la solicitud
@@ -44,10 +67,32 @@ class ClaseController extends Controller
     }
 
     public function show($id)
+{
+    // Buscar la clase con las relaciones necesarias
+    $clase = Clase::with(['profesor', 'materia', 'salon'])->findOrFail($id);
+
+    // Formatear el resultado
+    $resultado = [
+
+        'id' => $clase->id,
+        'profesor_nombre' => $clase->profesor->nombre,
+        'materia_nombre' => $clase->materia->nombre,
+        'salon_codigo' => $clase->salon->codigo,
+        'grupo' => $clase->grupo,
+        'dia_semana' => $clase->dia_semana,
+        'hora_inicio' => $clase->hora_inicio,
+        'hora_fin' => $clase->hora_fin,
+    ];
+
+    return response()->json($resultado);
+}
+/*
+    public function show($id)
     {
         $clase = Clase::findOrFail($id);
         return response()->json($clase);
     }
+        */
 
     public function update(Request $request, $id)
     {

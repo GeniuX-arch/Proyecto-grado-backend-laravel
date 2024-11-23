@@ -7,71 +7,120 @@ use Illuminate\Http\Request;
 
 class ProfesorMateriaController extends Controller
 {
-    // Obtener todas las relaciones profesor-materia o filtrar por profesor_id
-    public function index(Request $request)
-    {
-        // Si hay un profesor_id en la consulta, filtrar por él
-        $profesorId = $request->query('profesor_id');
+    // Obtener todas las relaciones o filtrar por profesor_id
+    public function index(Request $request){
+    
+    $name = $request->query('name');
+    $profesorId = $request->query('profesor_id');
+    $profesorNombre = $request->query('profesor_nombre');
+    $materiaNombre = $request->query('materia_nombre');
+    if($name){
 
-        if ($profesorId) {
-            // Asegúrate de que el profesor_id es válido
-            return response()->json(ProfesorMateria::where('profesor_id', $profesorId)->get());
-        }
+    // Base de la consulta
+    $query = ProfesorMateria::with(['profesor', 'materia']);
+    // Aplicar filtros si están presentes
+    $hasFilters = false;
 
-        // Si no hay profesor_id, devuelve todas las relaciones
-        return response()->json(ProfesorMateria::all());
+    if ($profesorId) {
+        $query->where('profesor_id', $profesorId);
+        $hasFilters = true;
     }
+
+    if ($profesorNombre) {
+        $query->whereHas('profesor', function ($subQuery) use ($profesorNombre) {
+            $subQuery->where('nombre', 'like', "%{$profesorNombre}%");
+        });
+        $hasFilters = true;
+    }
+
+    if ($materiaNombre) {
+        $query->whereHas('materia', function ($subQuery) use ($materiaNombre) {
+            $subQuery->where('nombre', 'like', "%{$materiaNombre}%");
+        });
+        $hasFilters = true;
+    }
+
+    // Limitar a 20 resultados solo si hay filtros
+    if ($hasFilters) {
+        $query->limit(20);
+    }
+
+    // Obtener resultados
+    $relaciones = $query->get();
+
+    // Formatear la respuesta
+    $resultado = $relaciones->map(function ($relacion) {
+        return [
+            'id' => $relacion->id,
+            'profesor_nombre' => $relacion->profesor->nombre,
+            'materia_nombre' => $relacion->materia->nombre,
+            'experiencia' => $relacion->experiencia,
+            'calificacion_alumno' => $relacion->calificacion_alumno,
+        ];
+    });
+
+    return response()->json($resultado);
+    }else{
+        return response()->json(ProfesorMateria::all());
+    }}
 
     // Crear una nueva relación profesor-materia
     public function store(Request $request)
     {
-        // Validar la solicitud
         $request->validate([
             'profesor_id' => 'required|integer|exists:profesores,id',
             'materia_id' => 'required|integer|exists:materias,id',
-            'experiencia' => 'nullable|numeric',
-            'calificacion_alumno' => 'nullable|numeric',
+            'experiencia' => 'nullable|numeric|min:0',
+            'calificacion_alumno' => 'nullable|numeric|between:2,5',
         ]);
 
-        // Crear la relación profesor-materia
-        $profesorMateria = ProfesorMateria::create($request->only(['profesor_id', 'materia_id', 'experiencia', 'calificacion_alumno']));
+        $profesorMateria = ProfesorMateria::create($request->only([
+            'profesor_id', 'materia_id', 'experiencia', 'calificacion_alumno'
+        ]));
 
-        // Retornar la relación creada
-        return response()->json($profesorMateria, 201);
+        return response()->json($profesorMateria->load(['profesor', 'materia']), 201);
     }
 
-    // Obtener una relación profesor-materia específica
+    // Obtener una relación específica
     public function show($id)
     {
-        $profesorMateria = ProfesorMateria::findOrFail($id);
-        return response()->json($profesorMateria);
+        $profesorMateria = ProfesorMateria::with(['profesor', 'materia'])->findOrFail($id);
+
+        $resultado = [
+            'id' => $profesorMateria->id,
+            'profesor_nombre' => $profesorMateria->profesor->nombre,
+            'materia_nombre' => $profesorMateria->materia->nombre,
+            'experiencia' => $profesorMateria->experiencia,
+            'calificacion_alumno' => $profesorMateria->calificacion_alumno,
+        ];
+
+        return response()->json($resultado);
     }
 
     // Actualizar una relación profesor-materia
     public function update(Request $request, $id)
     {
-        // Validar la solicitud
         $request->validate([
             'profesor_id' => 'sometimes|required|integer|exists:profesores,id',
             'materia_id' => 'sometimes|required|integer|exists:materias,id',
-            'experiencia' => 'nullable|numeric',
-            'calificacion_alumno' => 'nullable|numeric',
+            'experiencia' => 'nullable|numeric|min:0',
+            'calificacion_alumno' => 'nullable|numeric|between:2,5',
         ]);
 
-        // Buscar la relación profesor-materia y actualizar
         $profesorMateria = ProfesorMateria::findOrFail($id);
-        $profesorMateria->update($request->only(['profesor_id', 'materia_id', 'experiencia', 'calificacion_alumno']));
+        $profesorMateria->update($request->only([
+            'profesor_id', 'materia_id', 'experiencia', 'calificacion_alumno'
+        ]));
 
-        // Retornar la relación actualizada
-        return response()->json($profesorMateria, 200);
+        return response()->json($profesorMateria->load(['profesor', 'materia']), 200);
     }
 
-    // Soft delete de una relación profesor-materia
+    // Eliminar una relación profesor-materia
     public function destroy($id)
     {
         $profesorMateria = ProfesorMateria::findOrFail($id);
-        $profesorMateria->delete(); // Esto realizará un soft delete
+        $profesorMateria->delete();
 
-        return response()->json(null, 204);
+        return response()->json(['message' => 'Relación eliminada con éxito'], 204);
     }
 }

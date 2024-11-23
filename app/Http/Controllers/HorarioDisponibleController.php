@@ -11,18 +11,45 @@ class HorarioDisponibleController extends Controller
     public function index(Request $request)
     {
         // Obtener el profesor_id de la consulta
+        $name = $request->query('name');
         $profesorId = $request->query('profesor_id');
+        $profesorNombre = $request->query('profesor_nombre');
 
+
+        if($name){
         if ($profesorId) {
             // Filtrar por profesor_id si se proporciona
-            $horarios = HorarioDisponible::where('profesor_id', $profesorId)->get();
-        } else {
-            // Si no se proporciona profesor_id, devolver todos los horarios
-            $horarios = HorarioDisponible::all();
+            $horarios = HorarioDisponible::with('profesor')
+                ->where('profesor_id', $profesorId)
+                ->get();
+        }   elseif ($profesorNombre) {
+            // Filtrar por el nombre del profesor si se proporciona
+            $horarios = HorarioDisponible::with('profesor')
+                ->whereHas('profesor', function ($query) use ($profesorNombre) {
+                    $query->where('nombre', 'like', "%{$profesorNombre}%");
+                })
+                ->get();
+        }
+        else {
+            // Si no se proporciona profesor_id, devolver todos los horarios con la relación
+            $horarios = HorarioDisponible::with('profesor')->get();
         }
 
-        return response()->json($horarios);
-    }
+        // Formatear los datos para devolver solo lo necesario
+        $resultado = $horarios->map(function ($horario) {
+            return [
+                'id' => $horario->id,
+                'profesor_nombre' => $horario->profesor->nombre,
+                'dia' => $horario->dia,
+                'hora_inicio' => $horario->hora_inicio,
+                'hora_fin' => $horario->hora_fin,
+            ];
+        });
+
+        return response()->json($resultado);
+    }else{
+        return response()->json(HorarioDisponible::all());
+    }}
 
     // Crear un nuevo horario disponible
     public function store(Request $request)
@@ -45,8 +72,19 @@ class HorarioDisponibleController extends Controller
     // Obtener un horario disponible específico
     public function show($id)
     {
-        $horario = HorarioDisponible::findOrFail($id);
-        return response()->json($horario);
+        // Buscar el horario con la relación necesaria
+        $horario = HorarioDisponible::with('profesor')->findOrFail($id);
+
+        // Formatear la respuesta
+        $resultado = [
+            'id' => $horario->id,
+            'profesor_nombre' => $horario->profesor->nombre,
+            'dia' => $horario->dia,
+            'hora_inicio' => $horario->hora_inicio,
+            'hora_fin' => $horario->hora_fin,
+        ];
+
+        return response()->json($resultado);
     }
 
     // Actualizar un horario disponible
